@@ -42,6 +42,9 @@
 
   /* Layout */
   --spacing-site: 1.25rem;
+
+  /* Breakpoints */
+  --breakpoint-xs: 30rem;
 }
 
 /* ============================================================
