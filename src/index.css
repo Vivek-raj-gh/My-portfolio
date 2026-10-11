@@ -1,0 +1,179 @@
+@import "tailwindcss";
+
+/* ============================================================
+   Design tokens — single source of truth for the visual system
+   ============================================================ */
+@theme {
+  /* Surfaces */
+  --color-ink: #0a0b0d; /* page background */
+  --color-ink-2: #0d0f12; /* deep surface */
+  --color-graphite: #14161b; /* surface */
+  --color-graphite-2: #1a1d23; /* elevated surface */
+  --color-graphite-3: #22252c; /* interactive surface */
+
+  /* Text */
+  --color-paper: #f4f2ec; /* warm white primary */
+  --color-muted: #9aa3b2; /* cool gray secondary */
+  --color-faint: #6b7280; /* tertiary / captions */
+
+  /* Accent — electric lime */
+  --color-accent: #c8f542;
+  --color-accent-dim: #9cc02f;
+  --color-accent-ink: #101200; /* text placed on accent */
+
+  /* Lines */
+  --color-line: #23262d;
+  --color-line-2: #2f333c;
+
+  /* Typography */
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Inter Variable", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  /* Radii */
+  --radius-card: 0.875rem;
+  --radius-pill: 999px;
+
+  /* Motion */
+  --ease-out-soft: cubic-bezier(0.19, 1, 0.22, 1);
+  --duration-fast: 180ms;
+  --duration-base: 320ms;
+  --duration-slow: 640ms;
+
+  /* Layout */
+  --spacing-site: 1.25rem;
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+body {
+  background-color: var(--color-ink);
+  color: var(--color-paper);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+::selection {
+  background-color: var(--color-accent);
+  color: var(--color-accent-ink);
+}
+
+/* Visible, consistent focus states */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Custom scrollbar for the dark theme */
+@media (pointer: fine) {
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-ink);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-graphite-3);
+    border-radius: 8px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-line-2);
+  }
+}
+
+/* ============================================================
+   Utilities
+   ============================================================ */
+
+/* Central responsive container */
+@utility container-site {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 72rem; /* 1152px */
+  padding-inline: var(--spacing-site);
+}
+
+/* Slender reading column for case studies */
+@utility container-reading {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 46rem;
+}
+
+/* Technical grid backdrop (decorative) */
+@utility bg-grid {
+  background-image:
+    linear-gradient(to right, color-mix(in oklab, var(--color-line) 55%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklab, var(--color-line) 55%, transparent) 1px, transparent 1px);
+  background-size: 3.25rem 3.25rem;
+}
+
+/* Accent gradient text */
+@utility text-accent-gradient {
+  background: linear-gradient(100deg, var(--color-accent) 20%, #8fd14f 90%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Hairline divider */
+@utility hairline {
+  border-top: 1px solid var(--color-line);
+}
+
+/* Skeleton shimmer keyframes for cover art placeholders */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* ============================================================
+   Motion
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .animate-shimmer {
+    animation: shimmer 2.4s linear infinite;
+  }
+}
