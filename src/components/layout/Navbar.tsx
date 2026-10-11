@@ -66,10 +66,22 @@ export function Navbar() {
   useEffect(() => {
     if (!menuOpen) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setMenuOpen(false);
+      if (e.key === "Escape") {
+        setMenuOpen(false);
+        menuButtonRef.current?.focus();
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
+  }, [menuOpen]);
+
+  /* Move focus into the menu when it opens. */
+  useEffect(() => {
+    if (!menuOpen) return;
+    const first = menuRef.current?.querySelector<HTMLElement>(
+      "a[href], button:not([disabled])",
+    );
+    first?.focus();
   }, [menuOpen]);
 
   const handleMenuKeyDown = (e: ReactKeyboardEvent<HTMLDivElement>) => {
@@ -98,6 +110,8 @@ export function Navbar() {
       } else {
         navigate("/", { state: { scrollTo: link.sectionId } });
       }
+    } else {
+      navigate(link.to);
     }
     setMenuOpen(false);
   };
